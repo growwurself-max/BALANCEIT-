@@ -6,15 +6,13 @@
   <title>Balance It! - Physics Puzzle Game</title>
   <link rel="stylesheet" href="style.css" />
 
+  <!-- Load Configuration (MUST be before other scripts) -->
+  <script src="config.js"></script>
+
   <!-- Adsterra Ad Scripts -->
   <script type="text/javascript">
-     atAsyncOptions = [{
-        'key' : '96c0e3d67ffd967d125cf1ceee43420a',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-     }];
+     // Load Adsterra key from config.js
+     atAsyncOptions = [window.GAME_CONFIG.ads];
   </script>
   <script type="text/javascript" src="//www.topcreativeformat.com/96c0e3d67ffd967d125cf1ceee43420a/invoke.js"></script>
 
@@ -22,17 +20,9 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-  <!-- Firebase Config - Replace with your own Firebase project config -->
+  <!-- Firebase Config - Loaded from config.js -->
   <script>
-    window.FIREBASE_CONFIG = {
-      apiKey: "AIzaSyDoNIEBkA_7hR2G6_REKyETJQtSc0zTnlc",
-      authDomain: "balance-it-game.firebaseapp.com",
-      databaseURL: "https://balance-it-game-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "balance-it-game",
-      storageBucket: "balance-it-game.firebasestorage.app",
-      messagingSenderId: "488687958247",
-      appId: "1:488687958247:web:d00b0811c976d40b78ca42"
-    };
+    window.FIREBASE_CONFIG = window.GAME_CONFIG.firebase;
   </script>
 </head>
 <body>
