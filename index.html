@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Balance It! - Physics Puzzle Game</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Adsterra Ad Scripts -->
+  <script type="text/javascript">
+     atAsyncOptions = [{
+        'key' : '96c0e3d67ffd967d125cf1ceee43420a',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+     }];
+  </script>
+  <script type="text/javascript" src="//www.topcreativeformat.com/96c0e3d67ffd967d125cf1ceee43420a/invoke.js"></script>
+</head>
+<body>
+  <div id="app" class="app">
+    <!-- Start Screen -->
+    <section id="startScreen" class="screen active">
+      <div class="start-container">
+        <div class="logo-section">
+          <h1 class="game-title">⚖️ Balance It!</h1>
+          <p class="game-subtitle">Master the art of perfect balance</p>
+        </div>
+
+        <div class="demo-scale">
+          <div class="demo-beam">
+            <div class="demo-pan left">
+              <div class="demo-weight">?</div>
+            </div>
+            <div class="demo-pivot"></div>
+            <div class="demo-pan right">
+              <div class="demo-stack">
+                <div class="demo-block block-10">10</div>
+                <div class="demo-block block-5">5</div>
+                <div class="demo-block block-2">2</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-options">
+          <button id="singlePlayerBtn" class="btn primary large">
+            <span class="btn-icon">🎯</span>
+            Single Player
+          </button>
+          <button id="multiplayerBtn" class="btn secondary large">
+            <span class="btn-icon">👥</span>
+            Multiplayer
+          </button>
+          <button id="tutorialBtn" class="btn ghost">
+            <span class="btn-icon">❓</span>
+            How to Play
+          </button>
+        </div>
+
+        <div class="stats-preview">
+          <div class="stat-item">
+            <span class="stat-label">High Score</span>
+            <span class="stat-value" id="previewHighScore">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Levels</span>
+            <span class="stat-value" id="previewLevels">50</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Level Selection -->
+    <section id="levelSelect" class="screen">
+      <div class="level-container">
+        <div class="level-header">
+          <h2>Select Level</h2>
+          <button id="backToStart" class="btn ghost small">← Back</button>
+        </div>
+
+        <div class="level-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <span class="progress-text" id="progressText">Level 1/50</span>
+        </div>
+
+        <div id="levelsGrid" class="levels-grid"></div>
+      </div>
+    </section>
+
+    <!-- Multiplayer Lobby -->
+    <section id="multiplayerLobby" class="screen">
+      <div class="lobby-container">
+        <div class="lobby-header">
+          <h2>Multiplayer Lobby</h2>
+          <button id="backToStartFromLobby" class="btn ghost small">← Back</button>
+        </div>
+
+        <div class="lobby-content">
+          <div class="player-setup">
+            <input id="playerNameInput" class="input-field" type="text" placeholder="Your name" maxlength="16" />
+          </div>
+
+          <div class="room-controls">
+            <button id="createRoomBtn" class="btn primary">Create Room</button>
+            <input id="roomCodeInput" class="input-field code" type="text" placeholder="AB12" maxlength="4" />
+            <button id="joinRoomBtn" class="btn secondary">Join Room</button>
+          </div>
+
+          <div id="lobbyInfo" class="lobby-info">
+            <div class="info-item">
+              <span class="info-label">Status:</span>
+              <span class="info-value" id="lobbyStatus">Ready</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Players:</span>
+              <span class="info-value" id="lobbyPlayers">0/4</span>
+            </div>
+          </div>
+
+          <button id="startMultiBtn" class="btn primary large" disabled>Start Match</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Game Screen -->
+    <section id="gameScreen" class="screen">
+      <div class="game-container">
+        <div class="game-header">
+          <div class="game-info">
+            <span class="level-badge" id="levelBadge">Level 1</span>
+            <span class="score-display" id="scoreDisplay">Score: 0</span>
+          </div>
+          <button id="exitGameBtn" class="btn ghost small">Exit</button>
+        </div>
+
+        <!-- Scale Container -->
+        <div class="scale-container">
+          <div id="scaleBeam" class="scale-beam">
+            <!-- Left Pan -->
+            <div class="pan left-pan">
+              <div id="mysteryWeight" class="mystery-weight">
+                <div class="weight-glow"></div>
+                <span class="weight-label">?</span>
+              </div>
+            </div>
+
+            <!-- Pivot -->
+            <div class="pivot">
+              <div class="pivot-glow"></div>
+            </div>
+
+            <!-- Right Pan -->
+            <div class="pan right-pan">
+              <div id="weightStack" class="weight-stack"></div>
+              <div class="pan-shadow"></div>
+            </div>
+          </div>
+
+          <!-- Base -->
+          <div class="scale-base">
+            <div class="base-shadow"></div>
+          </div>
+        </div>
+
+        <!-- Weight Controls -->
+        <div class="controls-container">
+          <div class="weight-selector">
+            <div class="weight-option" data-weight="10">
+              <div class="weight-block block-10">10kg</div>
+              <div class="weight-count" id="count-10">0</div>
+            </div>
+            <div class="weight-option" data-weight="5">
+              <div class="weight-block block-5">5kg</div>
+              <div class="weight-count" id="count-5">0</div>
+            </div>
+            <div class="weight-option" data-weight="2">
+              <div class="weight-block block-2">2kg</div>
+              <div class="weight-count" id="count-2">0</div>
+            </div>
+            <div class="weight-option" data-weight="1">
+              <div class="weight-block block-1">1kg</div>
+              <div class="weight-count" id="count-1">0</div>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button id="hintBtn" class="btn secondary">
+              <span class="btn-icon">💡</span>
+              Hint
+            </button>
+            <button id="clearBtn" class="btn ghost">
+              <span class="btn-icon">🗑️</span>
+              Clear
+            </button>
+            <button id="submitBtn" class="btn primary large">
+              <span class="btn-icon">✅</span>
+              Balance!
+            </button>
+          </div>
+        </div>
+
+        <!-- Feedback -->
+        <div class="feedback-area">
+          <div id="feedbackMessage" class="feedback-message"></div>
+          <div id="currentWeight" class="current-weight">Total: 0kg</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Result Screen -->
+    <section id="resultScreen" class="screen">
+      <div class="result-container">
+        <div class="result-content">
+          <div id="resultIcon" class="result-icon">🎉</div>
+          <h2 id="resultTitle">Perfect Balance!</h2>
+          <p id="resultMessage">The hidden weight was 15kg</p>
+
+          <div class="result-stats">
+            <div class="stat-item">
+              <span class="stat-label">Score</span>
+              <span class="stat-value" id="resultScore">+10</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Time</span>
+              <span class="stat-value" id="resultTime">12.5s</span>
+            </div>
+          </div>
+
+          <div class="result-actions">
+            <button id="nextLevelBtn" class="btn primary">Next Level</button>
+            <button id="retryLevelBtn" class="btn secondary">Try Again</button>
+            <button id="backToLevelsBtn" class="btn ghost">Level Select</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tutorial Overlay -->
+    <div id="tutorialOverlay" class="tutorial-overlay">
+      <div class="tutorial-content">
+        <h3>How to Play</h3>
+        <div class="tutorial-steps">
+          <div class="tutorial-step">
+            <div class="step-icon">⚖️</div>
+            <div class="step-text">
+              <strong>The scale is unbalanced!</strong><br>
+              A hidden weight is on the left side.
+            </div>
+          </div>
+          <div class="tutorial-step">
+            <div class="step-icon">🏋️</div>
+            <div class="step-text">
+              <strong>Add weights to the right side</strong><br>
+              Use 1kg, 2kg, 5kg, and 10kg blocks.
+            </div>
+          </div>
+          <div class="tutorial-step">
+            <div class="step-icon">🎯</div>
+            <div class="step-text">
+              <strong>Find perfect balance</strong><br>
+              Match the hidden weight exactly!
+            </div>
+          </div>
+        </div>
+        <button id="closeTutorialBtn" class="btn primary">Got it!</button>
+      </div>
+    </div>
+
+    <!-- Countdown Overlay -->
+    <div id="countdownOverlay" class="countdown-overlay">
+      <div class="countdown-content">
+        <div id="countdownNumber" class="countdown-number">3</div>
+        <div class="countdown-text">Get Ready!</div>
+      </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Loading...</div>
+    </div>
+  </div>
+
+  <!-- Audio Context for Web Audio API -->
+  <script>
+    // Initialize Audio Context for sound effects
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (window.AudioContext) {
+      window.audioContext = new AudioContext();
+    }
+  </script>
+
+  <script src="levels.js"></script>
+  <script src="multiplayer.js"></script>
+  <script src="ads.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
