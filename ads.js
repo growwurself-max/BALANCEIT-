@@ -1,3 +1,10 @@
+
+https://www.profitablecpmratenetwork.com/kvys0irugy?key=bab5a6059b4023e35ab9f2133c436930
+<script src="https://pl29195243.profitablecpmratenetwork.com/3a/e5/de/3ae5de541a80eb8cdbe4e7169880083f.js"></script>
+<script async="async" data-cfasync="false" src="https://pl28547402.profitablecpmratenetwork.com/96c0e3d67ffd967d125cf1ceee43420a/invoke.js"></script>
+<div id="container-96c0e3d67ffd967d125cf1ceee43420a"></div>
+
+
 window.ads = (function () {
   var adFrequency = {
     levelStart: 3, // Show on every 3rd level start
